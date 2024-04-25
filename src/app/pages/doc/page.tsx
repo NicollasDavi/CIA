@@ -1,33 +1,26 @@
-// Page.tsx
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DocsModal from '@/components/DocsModal';
 import ImageText from '@/components/layouts/ImageText';
 import NotText from '@/components/Nots/NotText';
+import TextImage from '@/components/layouts/TextImage';
+import Text from '@/components/layouts/Text';
+import Image from '@/components/layouts/Image';
+
+interface DocType {
+    type: number;
+    text: string;
+    img: number;
+}
 
 const Page = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isNotTextOpen, setIsNotTextOpen] = useState(false);
     const [newTypeText, setNewTypeText] = useState("");
-    const [doc, setDoc] = useState({
-        nome: "Teste",
-        types: [
-            {
-                type: 1,
-                text: "Teste teste teste",
-                img: 0
-            },
-            {
-                type: 2,
-                text: "testtetstetstettettetste",
-                img: 0
-            },
-            {
-                type: 1,
-                text: "escrita ",
-                img: 0
-            },
-        ]
+    const [name, setName] = useState("");
+    const [doc, setDoc] = useState<{ nome: string; types: DocType[] }>({
+        nome: "",
+        types: []
     });
 
     const openModal = () => setIsModalOpen(true);
@@ -37,33 +30,34 @@ const Page = () => {
     const closeText = () => setIsNotTextOpen(false);
 
     const addNewType = (type: number) => {
-        const newText = newTypeText.replace(/\n\s*\n/g, '\n\n'); // Remove linhas em branco adicionais
-        const newType = {
+        const newText = newTypeText.replace(/\n\s*\n/g, '\n\n');
+        const newType: DocType = {
             type: type,
             text: newText,
             img: 0
         };
 
-        setDoc({
-            ...doc,
-            types: [...doc.types, newType]
-        });
+        setDoc(prevDoc => ({
+            ...prevDoc,
+            types: [...prevDoc.types, newType]
+        }));
 
         setNewTypeText("");
-
         setIsNotTextOpen(true);
-        console.log(doc);
     };
 
-    // Função para chamar addNewType(1) quando o botão "Salvar" for clicado
     const handleSave = () => {
         addNewType(1);
     };
 
+    useEffect(() => {
+        console.log("Estado atualizado:", doc);
+    }, [doc]);
+
     return (
         <div className='pt-8'>
             <div className='w-11/12 md:w-9/12 m-auto h-auto mb-10'>
-                <h1 className='ml-1 pb-2 pt-10 md:pt-12'>{doc.nome}</h1>
+                <input type="text" value={name} className='ml-1 pb-2 pt-10 md:pt-12' onChange={(e) => setName(e.target.value)} />
                 {doc.types.map((item, index) => (
                     <div key={index}>
                         {item.type === 1 ? (
@@ -80,7 +74,7 @@ const Page = () => {
                         rows={10}
                         className='w-full rounded-xl p-2'
                         onChange={(e) => setNewTypeText(e.target.value)}
-                        style={{ whiteSpace: 'pre-line' }} // Aqui aplicamos o estilo para preservar quebras de linha
+                        style={{ whiteSpace: 'pre-line' }}
                     ></textarea>
                 </NotText>
                 <div className='w-full justify-end flex'>
@@ -88,7 +82,10 @@ const Page = () => {
                 </div>
                 <DocsModal isOpen={isModalOpen} onClose={closeModal} style="fixed inset-0 flex items-center justify-end mr-60 z-30">
                     <div className='p-2'>
-                        <ImageText func={openText} />
+                        <ImageText />
+                        <TextImage />
+                        <Text func={openText} />
+                        <Image />
                     </div>
                 </DocsModal>
             </div>
