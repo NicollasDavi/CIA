@@ -12,7 +12,7 @@ const Page = () => {
       caption: 'Legenda da imagem 1',
     },
     {
-      image: 'https://1.bp.blogspot.com/-QRjJFEMFqvk/XfVvVEg-3sI/AAAAAAAAiFo/zaVHRzeG9YkzRsueuzbcYTBgBQycp4uAACLcBGAsYHQ/s2560/mount-lorette-ponds-2560x1440-mountains-pine-trees-landscape-canada-19435.jpg',
+      image: 'https://cdn.pixabay.com/photo/2016/05/05/02/37/sunset-1373171_1280.jpg',
       alt: 'Texto alternativo da imagem',
       caption: 'Legenda da imagem 2',
     },
