@@ -5,19 +5,32 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
+  style: string
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, style }) => {
   if (!isOpen) return null;
 
+  
+  const addOnClickToChildren = (child: ReactNode): ReactNode => {
+    if (!React.isValidElement(child)) return child;
+
+    return React.cloneElement(child as React.ReactElement, {
+      onClick: () => {
+        onClose(); 
+      }
+    });
+  };
+
+  const childrenWithOnClick = React.Children.map(children, addOnClickToChildren);
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-30">
-      <div className="absolute inset-0  opacity-50"></div>
-      <div className="relative z-20 bg-white p-4 rounded-md">
+    <div className={style}>
+      <div className="relative z-20 bg-white p-4 rounded-md border">
         <div className='mb-5'>
-            <button className="absolute top-2 right-2 bg-red-500 text-white px-2" onClick={onClose}>x</button>
+          <button className="absolute top-2 right-2 bg-red-500 text-white px-2" onClick={onClose}>x</button>
         </div>
-        {children}
+        {childrenWithOnClick}
       </div>
     </div>
   );

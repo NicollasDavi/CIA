@@ -1,6 +1,8 @@
 import CourseCard from '@/components/CourseCard'
 import DocCard from '@/components/DocCard'
+import PlusIcon from '@/components/PlusIcon'
 import React from 'react'
+const teste = "/pages/doc"
 
 const page = () => {
   return (
@@ -23,6 +25,7 @@ const page = () => {
        <DocCard />
 
       </div>
+      <PlusIcon link={teste}/>
     </div>
   )
 }
