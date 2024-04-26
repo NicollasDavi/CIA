@@ -10,7 +10,7 @@ import Image from '@/components/layouts/Image';
 interface DocType {
     type: number;
     text: string;
-    img: string; // Alterei para string, pois é o tipo esperado para a URL da imagem
+    img: string;
 }
 
 const Page = () => {
@@ -98,6 +98,15 @@ const Page = () => {
         }
     };
 
+
+    const removeItem = (indexToRemove: number) => {
+        setDoc(prevDoc => {
+            const { nome, types } = prevDoc;
+            const updatedTypes = types.filter((_, index) => index !== indexToRemove);
+            return { nome, types: updatedTypes };
+        });
+    };
+    
     useEffect(() => {
         console.log("Estado atualizado:", doc);
     }, [doc]);
@@ -106,11 +115,12 @@ const Page = () => {
         <div className='pt-8'>
             <div className='w-11/12 md:w-9/12 m-auto h-auto mb-10'>
                 <section className='mt-16 items-end'>
-                    <input type="text" value={name} className='ml-1 border mb-3' onChange={(e) => setName(e.target.value)} />
+                   <input type="text" value={name} className='ml-1 border mb-3' onChange={(e) => setName(e.target.value)} />
                     <hr className='mt-2'/>
                 </section>
                 {doc.types.map((item, index) => (
-                    <div key={index} className='p-2'>
+                    <div key={index} className='p-2 flex flex-row gap-2'>
+                         <button className='bg-red-500 px-3 py-1 rounded-full w-[30px] text-center h-[30px] text-white' onClick={() => removeItem(index)}>R</button>
                         {item.type === 1 ? (
                             <p style={{ whiteSpace: 'pre-line' }}>{item.text}</p>
                         ) : ""}
@@ -136,13 +146,13 @@ const Page = () => {
                 ))}
                 <hr />
                 <NotText isNotTextOpen={isNotTextImageOpen} onNotTextClose={closeText} onSave={handleSave} type={selectedNotType || 3}>
-                    <div className='flex flex-row gap-2'>
+                    <div className='flex md:flex-row flex-col gap-2'>
                         <textarea
                             name=""
                             id=""
                             cols={30}
                             rows={10}
-                            className='w-6/12 rounded-xl p-2'
+                            className='md:w-6/12 w-full rounded-xl p-2'
                             value={newTypeText}
                             onChange={(e) => setNewTypeText(e.target.value)}
                             style={{ whiteSpace: 'pre-line' }}
@@ -150,7 +160,7 @@ const Page = () => {
                         {!image ? (
                            <input
                            type='file'
-                           className=''
+                           className='md:w-6/12 w-full p-3'
                            onChange={(e) => {
                                const file = e.target.files && e.target.files[0];
                                if (file) {
@@ -159,16 +169,16 @@ const Page = () => {
                            }}
                        />
                         ) : (
-                            <img src={image} alt="Imagem escolhida" className='w-6/12 rounded-xl'/>
+                            <img src={image} alt="Imagem escolhida" className='md:w-6/12 w-full p-2 rounded-xl'/>
                         )}
                     </div>
                 </NotText>
                 <NotText isNotTextOpen={isNotImageTextOpen} onNotTextClose={closeText} onSave={handleSave} type={selectedNotType || 3}>
-                    <div className='flex flex-row gap-2'>
+                    <div className='flex md:flex-row flex-col gap-2'>
                         {!image ? (
                            <input
                            type='file'
-                           className=''
+                           className='md:w-6/12 w-full p-3'
                            onChange={(e) => {
                                const file = e.target.files && e.target.files[0];
                                if (file) {
@@ -177,14 +187,14 @@ const Page = () => {
                            }}
                        />
                         ) : (
-                            <img src={image} alt="Imagem escolhida" className='w-6/12 rounded-xl'/>
+                            <img src={image} alt="Imagem escolhida" className='md:w-6/12 w-full p-2 rounded-xl'/>
                         )}
                          <textarea
                             name=""
                             id=""
                             cols={30}
                             rows={10}
-                            className='w-6/12 rounded-xl p-2'
+                            className='md:w-6/12 w-full rounded-xl p-2'
                             value={newTypeText}
                             onChange={(e) => setNewTypeText(e.target.value)}
                             style={{ whiteSpace: 'pre-line' }}
@@ -192,11 +202,11 @@ const Page = () => {
                     </div>
                 </NotText>
                 <NotText isNotTextOpen={isNotImageOpen} onNotTextClose={closeText} onSave={handleSave} type={selectedNotType || 3}>
-                    <div className='flex flex-row gap-2'>
+                    <div className='flex md:flex-row flex-col gap-2'>
                         {!image ? (
                            <input
                            type='file'
-                           className=''
+                           className='md:w-6/12 w-full p-3'
                            onChange={(e) => {
                                const file = e.target.files && e.target.files[0];
                                if (file) {
@@ -205,7 +215,7 @@ const Page = () => {
                            }}
                        />
                         ) : (
-                            <img src={image} alt="Imagem escolhida" className='w-6/12 rounded-xl'/>
+                            <img src={image} alt="Imagem escolhida" className='md:w-6/12 w-full p-2 rounded-xl'/>
                         )}
                     </div>
                 </NotText>
@@ -215,7 +225,7 @@ const Page = () => {
                             id=""
                             cols={30}
                             rows={10}
-                            className='w-full rounded-xl p-2'
+                            className='md:w-6/12 w-full rounded-xl p-2'
                             value={newTypeText}
                             onChange={(e) => setNewTypeText(e.target.value)}
                             style={{ whiteSpace: 'pre-line' }}
@@ -235,7 +245,6 @@ const Page = () => {
                     </div>
                 </DocsModal>
                     </section>
-              
                 </div>
                
             </div>

@@ -3,10 +3,21 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
+import DocsModal from '@/components/DocsModal';
+import PegarDia from '@/components/PegarDia';
 
 
 const Page = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const [selected, setSelected] = useState<Date | undefined>();
+    const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+
+
+    const handleDateSelect = (date: Date | undefined) => {
+        setSelectedDate(date);
+        console.log(selectedDate)
+      };
 
     let footer: JSX.Element;
     if (selected) {
@@ -15,9 +26,30 @@ const Page = () => {
         footer = <p className="text-gray-700 mt-6">Selecione um dia.</p>;
     }
 
+    const closeModal = () => setIsModalOpen(false);
+    const openModal = () => setIsModalOpen(true)
+
     return (
-        <div className="w-12/12 md:w-9/12 mx-auto flex flex-col md:flex-row">
+        <div className="w-12/12 md:w-9/12 mx-auto flex flex-col md:flex-row ">
             <div className="md:pt-32 pt-20 w-11/12 md:w-6/12 m-auto">
+                <DocsModal isOpen={isModalOpen} onClose={closeModal} style="absolute z-20 w-8/12">
+                <>
+                <div className='flex flex-row gap-3'>
+                    <section className='w-6/12 flex items-center justify-center'>
+                        <section className='bg-gray-400/40 p-3 rounded-xl'>
+                            <PegarDia onDateSelect={handleDateSelect}/>
+                        </section>
+                    </section>
+                    <section className='w-6/12 bg-white flex flex-col gap-5 p-10'>
+                        <input type='text' placeholder='Nome do evento' className='w-full p-2 border border-[#3B82F6]'/>
+                        <textarea placeholder='Digite a descrição' className='w-full border p-2 border-[#3B82F6]' cols={10} rows={15}></textarea>
+                    </section>
+                </div>
+                    
+                </>
+                        
+                   
+                </DocsModal>
                 <div className='bg-gray-100/30 rounded-lg shadow-2xl shadow-black px-3 md:px-8 md:py-4 w-full md:w-8/12'>
                     <DayPicker
                         showOutsideDays
@@ -29,7 +61,7 @@ const Page = () => {
                         className='m-auto'
                     />
                 </div>
-                <button className='md:mt-24 mt-8 rounded-lg text-white px-10 py-2 bg-[#3B82F6]'>Adicionar compromisso</button>
+                <button className='md:mt-24 mt-8 rounded-lg text-white px-10 py-2 bg-[#3B82F6]'  onClick={openModal}>Adicionar compromisso</button>
             </div>
             <div className='px-4 md:w-6/12 pb-5'>
                 <div className=' mt-32 flex flex-col gap-5'>
