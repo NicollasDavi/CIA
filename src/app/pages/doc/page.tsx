@@ -148,11 +148,16 @@ const Page = () => {
                             style={{ whiteSpace: 'pre-line' }}
                         ></textarea>
                         {!image ? (
-                            <input
-                                type='file'
-                                className='w-6/12'
-                                onChange={(e) => setImage(URL.createObjectURL(e.target.files[0]))}
-                            />
+                           <input
+                           type='file'
+                           className=''
+                           onChange={(e) => {
+                               const file = e.target.files && e.target.files[0];
+                               if (file) {
+                                   setImage(URL.createObjectURL(file));
+                               }
+                           }}
+                       />
                         ) : (
                             <img src={image} alt="Imagem escolhida" className='w-6/12 rounded-xl'/>
                         )}
@@ -161,11 +166,16 @@ const Page = () => {
                 <NotText isNotTextOpen={isNotImageTextOpen} onNotTextClose={closeText} onSave={handleSave} type={selectedNotType || 3}>
                     <div className='flex flex-row gap-2'>
                         {!image ? (
-                            <input
-                                type='file'
-                                className='w-6/12'
-                                onChange={(e) => setImage(URL.createObjectURL(e.target.files[0]))}
-                            />
+                           <input
+                           type='file'
+                           className=''
+                           onChange={(e) => {
+                               const file = e.target.files && e.target.files[0];
+                               if (file) {
+                                   setImage(URL.createObjectURL(file));
+                               }
+                           }}
+                       />
                         ) : (
                             <img src={image} alt="Imagem escolhida" className='w-6/12 rounded-xl'/>
                         )}
@@ -184,11 +194,16 @@ const Page = () => {
                 <NotText isNotTextOpen={isNotImageOpen} onNotTextClose={closeText} onSave={handleSave} type={selectedNotType || 3}>
                     <div className='flex flex-row gap-2'>
                         {!image ? (
-                            <input
-                                type='file'
-                                className='w-6/12'
-                                onChange={(e) => setImage(URL.createObjectURL(e.target.files[0]))}
-                            />
+                           <input
+                           type='file'
+                           className=''
+                           onChange={(e) => {
+                               const file = e.target.files && e.target.files[0];
+                               if (file) {
+                                   setImage(URL.createObjectURL(file));
+                               }
+                           }}
+                       />
                         ) : (
                             <img src={image} alt="Imagem escolhida" className='w-6/12 rounded-xl'/>
                         )}
