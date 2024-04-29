@@ -1,9 +1,12 @@
-// PegarDia.tsx
 "use client"
 import React from 'react';
 import { DayPicker } from 'react-day-picker';
 
-const PegarDia: React.FC = () => {
+interface PegarDiaProps {
+  handleResult: (date: any) => void;
+}
+
+const PegarDia: React.FC<PegarDiaProps> = (props) => {
   const [selected, setSelected] = React.useState<Date>();
   const [timeValue, setTimeValue] = React.useState<string>('00:00');
 
@@ -27,7 +30,7 @@ const PegarDia: React.FC = () => {
       hours,
       minutes
     );
-    
+    props.handleResult(newDate);
     console.log('Dia:', newDate.getDate());
     console.log('Hora:', newDate.getHours());
     console.log('Mês:', newDate.getMonth() + 1);
@@ -36,25 +39,27 @@ const PegarDia: React.FC = () => {
 
   return (
     <>
+      <div>
+        <p className='ml-4 text-white'>
+          Selecione a hora:{' '}
+          <input
+            type="time"
+            value={timeValue}
+            onChange={handleTimeChange}
+            className='bg-white text-black rounded-xl p-1 ml-5'
+
+          />
+        </p>
+      </div>
       <DayPicker
         mode="single"
         selected={selected}
         onSelect={handleDaySelect}
-        footer={
-          <>
-            <p>
-              Selecione a hora:{' '}
-              <input
-                type="time"
-                value={timeValue}
-                onChange={handleTimeChange}
-              />
-            </p>
-          </>
-        }
+        className='bg-[#3B82F6]  text-white'
       />
     </>
   );
-};
+}
+  
 
 export default PegarDia;
