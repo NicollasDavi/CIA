@@ -3,8 +3,11 @@ import React from 'react';
 import { DayPicker } from 'react-day-picker';
 
 interface PegarDiaProps {
-  handleResult: (date: any) => void;
+  handleResult: (date: Date | undefined) => void;
 }
+
+
+
 
 const PegarDia: React.FC<PegarDiaProps> = (props) => {
   const [selected, setSelected] = React.useState<Date>();
