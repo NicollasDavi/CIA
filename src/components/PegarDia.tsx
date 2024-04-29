@@ -30,6 +30,7 @@ const PegarDia: React.FC<PegarDiaProps> = (props) => {
       return;
     }
 
+    
     props.handleResult(date, hours, minutes);
   };
 
