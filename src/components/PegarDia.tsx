@@ -1,17 +1,15 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 
 interface PegarDiaProps {
-  handleResult: (date: Date | undefined) => void;
+  handleResult: (date: Date | undefined, hour: number, minute: number) => void;
 }
 
-
-
-
 const PegarDia: React.FC<PegarDiaProps> = (props) => {
-  const [selected, setSelected] = React.useState<Date>();
-  const [timeValue, setTimeValue] = React.useState<string>('00:00');
+  const [selected, setSelected] = useState<Date | undefined>();
+  const [timeValue, setTimeValue] = useState<string>('00:00');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleTimeChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setTimeValue(e.target.value);
@@ -19,25 +17,20 @@ const PegarDia: React.FC<PegarDiaProps> = (props) => {
 
   const handleDaySelect = (date: Date | undefined) => {
     setSelected(date);
-    if (!timeValue || !date) {
-      console.log('Nenhuma data selecionada');
+    setErrorMessage('');
+
+    if (!date) {
+      setErrorMessage('Nenhuma data selecionada');
       return;
     }
-    const [hours, minutes] = timeValue
-      .split(':')
-      .map((str) => parseInt(str, 10));
-    const newDate = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      hours,
-      minutes
-    );
-    props.handleResult(newDate);
-    console.log('Dia:', newDate.getDate());
-    console.log('Hora:', newDate.getHours());
-    console.log('Mês:', newDate.getMonth() + 1);
-    console.log('Data formatada:', newDate.toLocaleString());
+
+    const [hours, minutes] = timeValue.split(':').map((str) => parseInt(str, 10));
+    if (isNaN(hours) || isNaN(minutes)) {
+      setErrorMessage('Hora inválida');
+      return;
+    }
+
+    props.handleResult(date, hours, minutes);
   };
 
   return (
@@ -50,7 +43,6 @@ const PegarDia: React.FC<PegarDiaProps> = (props) => {
             value={timeValue}
             onChange={handleTimeChange}
             className='bg-white text-black rounded-xl p-1 ml-5'
-
           />
         </p>
       </div>
@@ -60,9 +52,9 @@ const PegarDia: React.FC<PegarDiaProps> = (props) => {
         onSelect={handleDaySelect}
         className='bg-[#3B82F6]  text-white'
       />
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
     </>
   );
 }
-  
 
 export default PegarDia;

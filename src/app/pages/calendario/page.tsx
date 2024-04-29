@@ -55,6 +55,7 @@ const Page = () => {
         setDescription("");
 
         console.log("Evento criado:", novoEvento);
+        setIsModalOpen(false);
     };
 
     let footer: JSX.Element;
