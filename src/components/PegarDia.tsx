@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 
 interface PegarDiaProps {
-  handleResult: () => any;
+  handleResult: (date: Date | undefined, hour: number, minute: number) => any;
 }
 
 const PegarDia: React.FC<PegarDiaProps> = (props) => {
