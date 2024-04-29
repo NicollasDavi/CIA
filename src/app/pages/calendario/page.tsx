@@ -76,7 +76,7 @@ const Page = () => {
                         <div className='flex flex-row gap-3'>
                             <section className='w-6/12 flex items-center justify-center'>
                                 <section className='bg-[#3B82F6] p-3 rounded-xl'>
-                                    <PegarDia  handleResult={handleDateSelect}/>
+                                    <PegarDia handleResult={handleDateSelect}/>
                                     
                                 </section>
                             </section>
