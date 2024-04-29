@@ -20,22 +20,28 @@ const Page = () => {
 
 
 
-    const handleDateSelect = (date: SetStateAction<Date | undefined>) => {
-        const currentDate: Date = (typeof date === 'function' ? date(new Date()) : date) ?? new Date();
-  
-        const selectedDay = currentDate.getDate();
-        const selectedMonth = currentDate.getMonth() + 1;
-        const selectedYear = currentDate.getFullYear();
-        const selectedHour = currentDate.getHours();
-        const selectedMinutes = currentDate.getMinutes();
-
+    const handleDateSelect = (date: Date | undefined, hour: number, minute: number, title: string, description: string) => {
+        // Verifica se a data foi selecionada
+        if (!date) {
+            console.error('Nenhuma data selecionada');
+            return;
+        }
+    
+        // Atualiza o estado com a data selecionada
+        const selectedDay = date.getDate();
+        const selectedMonth = date.getMonth() + 1;
+        const selectedYear = date.getFullYear();
+        const selectedHour = hour;
+        const selectedMinutes = minute;
+    
         setDay(selectedDay);
         setMonth(selectedMonth);
         setYear(selectedYear);
         setHour(selectedHour);
         setMinutes(selectedMinutes);
-
-        console.log("No dia ", selectedDay,"mes ", selectedMonth,"ano ", selectedYear,"Na hora ", selectedHour,":", selectedMinutes, "Voce tem o evento ", title, "com a descrioção: ", description);
+    
+        // Imprime os detalhes do evento
+        console.log("No dia ", selectedDay, "do mês ", selectedMonth, "de", selectedYear, "às", selectedHour, "horas e", selectedMinutes, "minutos, você tem o evento:", title, "com a descrição:", description);
     };
 
     const handleCreateEvent = () => {
@@ -76,7 +82,7 @@ const Page = () => {
                         <div className='flex flex-row gap-3'>
                             <section className='w-6/12 flex items-center justify-center'>
                                 <section className='bg-[#3B82F6] p-3 rounded-xl'>
-                                    <PegarDia handleResult={handleDateSelect}/>
+                                <PegarDia handleResult={(date, hour, minute) => handleDateSelect(date, hour, minute, title, description)} />
                                     
                                 </section>
                             </section>
