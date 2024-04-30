@@ -22,7 +22,7 @@ const Page = () => {
 
 
 
-    const handleDateSelect = (date: Date | undefined, hour: number, minute: number, title: string, description: string) => {
+    const handleDateSelect = (date: Date | undefined, hour: number, minute: number) => {
         if (!date) {
             console.error('Nenhuma data selecionada');
             return;
@@ -79,7 +79,7 @@ const Page = () => {
                         <div className='flex flex-row gap-3'>
                             <section className='w-6/12 flex items-center justify-center'>
                                 <section className='bg-[#3B82F6] p-3 rounded-xl'>
-                                <PegarDia handleResult={(date, hour, minute) => handleDateSelect(date, hour, minute, title, description)} />
+                                <PegarDia handleResult={handleDateSelect} />
                                     
                                 </section>
                             </section>
