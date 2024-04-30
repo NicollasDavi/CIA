@@ -23,26 +23,21 @@ const Page = () => {
 
 
     const handleDateSelect = (date: Date | undefined, hour: number, minute: number, title: string, description: string) => {
-        // Verifica se a data foi selecionada
         if (!date) {
             console.error('Nenhuma data selecionada');
             return;
         }
     
-        // Atualiza o estado com a data selecionada
         const selectedDay = date.getDate();
         const selectedMonth = date.getMonth() + 1;
         const selectedYear = date.getFullYear();
         const selectedHour = hour;
         const selectedMinutes = minute;
-    
         setDay(selectedDay);
         setMonth(selectedMonth);
         setYear(selectedYear);
         setHour(selectedHour);
         setMinutes(selectedMinutes);
-    
-        // Imprime os detalhes do evento
         console.log("No dia ", selectedDay, "do mês ", selectedMonth, "de", selectedYear, "às", selectedHour, "horas e", selectedMinutes, "minutos, você tem o evento:", title, "com a descrição:", description);
     };
 
