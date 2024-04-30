@@ -22,7 +22,7 @@ const Page = () => {
 
 
 
-    const handleDateSelect = (date: Date | undefined, hour: number, minute: number) => {
+    const handleDateSelect = (date : any) => {
         if (!date) {
             console.error('Nenhuma data selecionada');
             return;
@@ -32,7 +32,7 @@ const Page = () => {
         const selectedMonth = date.getMonth() + 1;
         const selectedYear = date.getFullYear();
         const selectedHour = hour;
-        const selectedMinutes = minute;
+        const selectedMinutes = minutes;
         setDay(selectedDay);
         setMonth(selectedMonth);
         setYear(selectedYear);
