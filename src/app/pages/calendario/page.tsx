@@ -6,6 +6,8 @@ import { format } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import DocsModal from '@/components/DocsModal';
+import PegarDia from '@/components/PegarDia';
+
 
 const Page = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,8 +20,8 @@ const Page = () => {
     const [year, setYear] = useState(0);
     const [hour, setHour] = useState(0);
     const [minutes, setMinutes] = useState(0);
-    const [timeValue, setTimeValue] = useState<string>('00:00');
-    const [errorMessage, setErrorMessage] = useState<string>('');
+
+
 
     const handleDateSelect = (date: Date | undefined) => {
         if (!date) {
@@ -60,28 +62,6 @@ const Page = () => {
         setIsModalOpen(false);
     };
 
-    const handleTimeChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        setTimeValue(e.target.value);
-    };
-
-    const handleDaySelect = (date: Date | undefined) => {
-        setSelected(date);
-        setErrorMessage('');
-
-        if (!date) {
-            setErrorMessage('Nenhuma data selecionada');
-            return;
-        }
-
-        const [hours, minutes] = timeValue.split(':').map((str) => parseInt(str, 10));
-        if (isNaN(hours) || isNaN(minutes)) {
-            setErrorMessage('Hora inválida');
-            return;
-        }
-
-        handleDateSelect(date);
-    };
-
     let footer: JSX.Element;
     if (selected) {
         footer = <p className="text-gray-700 mt-6">Você selecionou {format(selected, 'PP')}.</p>;
@@ -100,24 +80,8 @@ const Page = () => {
                         <div className='flex flex-row gap-3'>
                             <section className='w-6/12 flex items-center justify-center'>
                                 <section className='bg-[#3B82F6] p-3 rounded-xl'>
-                                    <div>
-                                        <p className='ml-4 text-white'>
-                                            Selecione a hora:{' '}
-                                            <input
-                                                type="time"
-                                                value={timeValue}
-                                                onChange={handleTimeChange}
-                                                className='bg-white text-black rounded-xl p-1 ml-5'
-                                            />
-                                        </p>
-                                    </div>
-                                    <DayPicker
-                                        mode="single"
-                                        selected={selected}
-                                        onSelect={handleDaySelect}
-                                        className='bg-[#3B82F6]  text-white'
-                                    />
-                                    {errorMessage && <p className="text-red-500">{errorMessage}</p>}                                    
+                                <PegarDia handleResult={handleDateSelect} />
+                                    
                                 </section>
                             </section>
                             <section className='w-6/12 bg-white flex flex-col gap-5 p-10'>
