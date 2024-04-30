@@ -1,20 +1,40 @@
 "use client"
 import Image from "next/image";
-import Link from "next/link";
-import {  useRouter } from "next/navigation";
-
-
-
+import {  redirect, useRouter } from "next/navigation";
+import axiosInstance from './axiosInstance';
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const router = useRouter();
+  const [matricula, setMatricula] = useState("")
+  const [senha, setSenha] = useState("")
+
+
 
   const handleRedirect = () => {
-    setTimeout(() => {
-      router.push('/pages/home');
-    }, 300);
+    const newMatricula = parseInt(matricula)
+    const data = {
+      matricula: newMatricula,
+      senha: senha
+    };
+  
+  axiosInstance.post('/login', data)
+      .then(response => {
+        const redirectUrl = response.data.URL; 
+      router.push(redirectUrl); 
+
+      })
+      .catch(error => {
+          console.error('Erro:', error);
+      });
   };
 
+useEffect(() => {
+    console.log(typeof(matricula))
+    console.log(typeof(senha))
+    console.log(matricula)
+    console.log(senha)
+}, [matricula, senha])
   return (
     <main className="flex min-h-screen flex-col-reverse md:flex-row items-center justify-between md:p-24 md:bg-[#3B82F6]  md:text-white">
       <div className="text-center bg-white/30 p-8 rounded-3xl md:ml-10">
@@ -27,10 +47,10 @@ export default function Home() {
           </div>
           <div>
             <section >
-              <input type="text" placeholder="Matrícla" className="bg-gray-400/30 md:bg-white md:mt-8 mt-3 w-full py-2 md:py-4 px-8 rounded-lg"/>
+              <input type="text" placeholder="Matrícla" className="bg-gray-400/30 md:bg-white md:mt-8 mt-3 w-full py-2 md:py-4 px-8 rounded-lg" onChange={(e) => setMatricula(e.target.value)}/>
             </section>
             <section>
-              <input type="text" placeholder="Senha" className="bg-gray-400/30 md:bg-white mt-3 md:mt-6 w-full py-2 md:py-4 px-8 rounded-lg"/>
+              <input type="text" placeholder="Senha" className="bg-gray-400/30 md:bg-white mt-3 md:mt-6 w-full py-2 md:py-4 px-8 rounded-lg" onChange={(e) => setSenha(e.target.value)}/>
             </section>
             <p className="text-start mt-4 text-xs ml-2">Esqueceu a senha ?</p>
           </div>

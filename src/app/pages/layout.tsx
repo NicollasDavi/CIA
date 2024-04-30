@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "../../app/globals.css";
 import AsideBar from "@/components/AsideBar";
 import Header from "@/components/Header";
+import { AlertProvider } from "../context/AlertContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,11 +18,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br">
+    <AlertProvider>  <html lang="pt-br">
         <body className={inter.className}>
             <div><AsideBar />
-            <Header/>{children}</div>
+            <Header/>{children}
+            </div>
         </body>
-    </html>
+    </html></AlertProvider>
+  
   );
 }
