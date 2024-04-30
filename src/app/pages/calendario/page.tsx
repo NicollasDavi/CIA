@@ -22,7 +22,7 @@ const Page = () => {
 
 
 
-    const handleDateSelect = (date : any) => {
+    const handleDateSelect = (date: Date | undefined) => {
         if (!date) {
             console.error('Nenhuma data selecionada');
             return;

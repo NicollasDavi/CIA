@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 
 interface PegarDiaProps {
-  handleResult: (data : any) => void;
-}
+    handleResult: (date: Date | undefined) => void;
+  }
 
 const PegarDia: React.FC<PegarDiaProps> = (props) => {
   const [selected, setSelected] = useState<Date | undefined>();
