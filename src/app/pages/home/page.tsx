@@ -1,10 +1,37 @@
-
+"use client"
 import Carousel from '@/components/Carousel';
 import MiniCalender from '@/components/MiniCalender';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState} from 'react';
+
+
+
 
 const Page = () => {
+  const [token, setToken] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if(!token){
+      window.location.href = '/'
+      console.log("n tem token")
+    }else{
+      setToken(true)
+      console.log("tem token")
+    }
+    console.log(token)
+  }, [])
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.clear();
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
   const items = [
     {
       image: '/CIA.png',
@@ -17,7 +44,12 @@ const Page = () => {
       caption: 'Legenda da imagem 2',
     },
   ];
-
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      console.log(token);
+    }
+  }, []);
   return (
     <div className=' pt-8'>
       <div className='w-11/12 md:w-9/12 m-auto h-auto mb-10'>

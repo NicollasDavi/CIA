@@ -20,9 +20,9 @@ export default function Home() {
   
   axiosInstance.post('/login', data)
       .then(response => {
+        localStorage.setItem('token', response.data.TOKEN)
         const redirectUrl = response.data.URL; 
       router.push(redirectUrl); 
-
       })
       .catch(error => {
           console.error('Erro:', error);
@@ -47,10 +47,10 @@ useEffect(() => {
           </div>
           <div>
             <section >
-              <input type="text" placeholder="Matrícla" className="bg-gray-400/30 md:bg-white md:mt-8 mt-3 w-full py-2 md:py-4 px-8 rounded-lg" onChange={(e) => setMatricula(e.target.value)}/>
+              <input type="text" placeholder="Matrícla" className="bg-gray-400/30 md:bg-white md:text-black md:mt-8 mt-3 w-full py-2 md:py-4 px-8 rounded-lg" onChange={(e) => setMatricula(e.target.value)}/>
             </section>
             <section>
-              <input type="text" placeholder="Senha" className="bg-gray-400/30 md:bg-white mt-3 md:mt-6 w-full py-2 md:py-4 px-8 rounded-lg" onChange={(e) => setSenha(e.target.value)}/>
+              <input type="text" placeholder="Senha" className="bg-gray-400/30 md:bg-white md:text-black mt-3 md:mt-6 w-full py-2 md:py-4 px-8 rounded-lg" onChange={(e) => setSenha(e.target.value)}/>
             </section>
             <p className="text-start mt-4 text-xs ml-2">Esqueceu a senha ?</p>
           </div>

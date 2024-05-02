@@ -3,7 +3,6 @@ import axiosInstance from '@/app/axiosInstance';
 import CourseCard from '@/components/CourseCard';
 import PlusIcon from '@/components/PlusIcon';
 import React, { useState, useEffect } from 'react';
-import { useAlert } from '@/app/context/AlertContext';
 
 interface Course {
   id: string;
@@ -11,7 +10,6 @@ interface Course {
 }
 
 const Page = () => {
-  const { showAlert } = useAlert();
 
   const [data, setData] = useState<Course[]>([]);
 
@@ -19,7 +17,6 @@ const Page = () => {
     axiosInstance.delete(`/curso/delete/${id}`)
       .then(response => {
         console.log(response);
-        showAlert('success', 'Curso deletado', 'O curso selecionado foi deletado com sucesso');
         setData(prevData => prevData.filter(course => course.id !== id));
       })
       .catch(error => {
