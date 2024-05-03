@@ -6,6 +6,7 @@ import NotText from '@/components/Nots/NotText';
 import TextImage from '@/components/layouts/TextImage';
 import Text from '@/components/layouts/Text';
 import Image from '@/components/layouts/Image';
+import axiosInstance from '@/app/axiosInstance';
 
 interface DocType {
     type: number;
@@ -16,7 +17,7 @@ interface DocType {
 const Page = () => {
     const [image, setImage] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [nome, setNome] = useState("")
     const [open, setOpen] = useState(0)
     const [isNotTextOpen, setIsNotTextOpen] = useState(false);
     const [isNotTextImageOpen, setIsNotTextImageOpen] = useState(false);
@@ -26,7 +27,6 @@ const Page = () => {
 
 
     const [newTypeText, setNewTypeText] = useState("");
-    const [name, setName] = useState("");
     const [doc, setDoc] = useState<{ nome: string; types: DocType[] }>({
         nome: "",
         types: []
@@ -73,6 +73,24 @@ const Page = () => {
         }
     }, [open])
 
+    useEffect(() => {
+        setDoc(prevDoc => ({
+            ...prevDoc,
+            nome: nome
+        }));
+    }, [nome]);
+
+    const env = () => {
+        axiosInstance.post('/doc', doc)
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+        });
+    }
+
+    
     const addNewType = (type: number) => {
         const newText = newTypeText.replace(/\n\s*\n/g, '\n\n');
         const newType: DocType = {
@@ -109,13 +127,15 @@ const Page = () => {
     
     useEffect(() => {
         console.log("Estado atualizado:", doc);
+        console.log(nome)
     }, [doc]);
+
 
     return (
         <div className='pt-8'>
             <div className='w-11/12 md:w-9/12 m-auto h-auto mb-10'>
                 <section className='mt-16 items-end'>
-                   <input type="text" value={name} className='ml-1 border mb-3' onChange={(e) => setName(e.target.value)} />
+                    <input type="text" value={nome} className='ml-1 border mb-3' onChange={(e) => setNome(e.target.value)} />
                     <hr className='mt-2'/>
                 </section>
                 {doc.types.map((item, index) => (
@@ -246,7 +266,9 @@ const Page = () => {
                 </DocsModal>
                     </section>
                 </div>
-               
+               <section className='w-full '>
+                <button className='px-10 py-1 text-white rounded-3xl bg-blue-500 ml-3 mt-10' onClick={() => env()}>Salvar</button>
+               </section>
             </div>
         </div>
     );

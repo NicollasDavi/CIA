@@ -1,10 +1,27 @@
+"use client"
+import axiosInstance from '@/app/axiosInstance'
 import CourseCard from '@/components/CourseCard'
 import DocCard from '@/components/DocCard'
 import PlusIcon from '@/components/PlusIcon'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 const teste = "/pages/doc"
 
+
+
+
 const page = () => {
+  const [data, setData] = useState()
+  useEffect(() => {
+    axiosInstance.get('/docs/105404')
+      .then(response => {
+        setData(response.data);
+        console.log(response)
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+      });
+  }, []);
+  
   return (
     <div className='pt-8'>
       <div className='w-11/12 md:w-9/12 m-auto h-auto mb-10'>

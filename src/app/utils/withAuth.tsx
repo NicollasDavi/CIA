@@ -6,7 +6,8 @@ const withAuth = <P extends object>(WrappedComponent: React.ComponentType<P>) =>
   const WithAuth = (props: P) => {
     useEffect(() => {
       const token = localStorage.getItem('token');
-      if (!token && window.location.pathname !== '/') {
+      console.log("o teken é", token);
+      if (!token) {
         window.location.replace('/'); 
       }
     }, []);

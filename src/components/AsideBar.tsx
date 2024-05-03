@@ -18,6 +18,7 @@ const AsideBar = () => {
     axiosInstance.post(`/logout/${matricula}`)
       .then(response => {
         console.log("saiu")
+        localStorage.removeItem('token')
         window.location.href = '/'
       })
       .catch(error => {
@@ -60,9 +61,9 @@ const AsideBar = () => {
         <div className='w-full'>
             <section className='fixed bottom-5 left-0 right-0  text-white text-center p-4 w-1/12'>
             <hr className='mb-4'/>
-            <Link href={""}  className='text-4xl inline-block'>
-                <CiLogout onClick={handleLogOut} className='inline-block'/>
-            </Link>
+            <button onClick={handleLogOut} className='text-4xl inline-block'>
+                <CiLogout  className='inline-block'/>
+            </button>
             </section>
         </div>
         
