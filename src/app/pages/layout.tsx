@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "../../app/globals.css";
 import AsideBar from "@/components/AsideBar";
 import Header from "@/components/Header";
+import PeerLayout from "@/components/PeerLayout";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,8 +23,7 @@ export default function RootLayout({
   return (
       <html lang="pt-br">
         <body className={inter.className}>
-            <div><AsideBar />
-            <Header/>{children}
+            <div><PeerLayout />{children}
             </div>
         </body>
     </html>

@@ -21,6 +21,7 @@ export default function Home() {
   axiosInstance.post('/login', data)
       .then(response => {
         localStorage.setItem('token', response.data.TOKEN)
+        localStorage.setItem('nome', response.data.USER)
         const redirectUrl = response.data.URL; 
       router.push(redirectUrl); 
       })

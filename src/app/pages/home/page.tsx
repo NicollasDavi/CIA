@@ -1,4 +1,5 @@
 "use client"
+import withAuth from '@/app/utils/withAuth';
 import Carousel from '@/components/Carousel';
 import MiniCalender from '@/components/MiniCalender';
 import Link from 'next/link';
@@ -8,29 +9,6 @@ import React, { useEffect, useState} from 'react';
 
 
 const Page = () => {
-  const [token, setToken] = useState(false);
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if(!token){
-      window.location.href = '/'
-      console.log("n tem token")
-    }else{
-      setToken(true)
-      console.log("tem token")
-    }
-    console.log(token)
-  }, [])
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      localStorage.clear();
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, []);
 
   const items = [
     {
@@ -77,4 +55,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);
