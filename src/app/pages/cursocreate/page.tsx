@@ -34,7 +34,6 @@ const page = () => {
             });
         };
     
-        // Converte a imagem para 
         convertImageToBase64(image)
             .then(base64Image => {
                 console.log()

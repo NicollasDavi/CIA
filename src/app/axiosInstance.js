@@ -3,7 +3,7 @@ import axios from 'axios';
 const token = localStorage.getItem('token') ? localStorage.getItem('token') : "";
 console.log(token)
 const instance = axios.create({
-    baseURL: 'http://localhost:4000/',
+    baseURL: 'http://172.24.88.61:4000/',
     timeout: 5000,
     headers: {
         'Content-Type': 'application/json',
@@ -12,3 +12,5 @@ const instance = axios.create({
 });
 
 export default instance;
+
+

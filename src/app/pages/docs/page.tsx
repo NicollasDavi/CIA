@@ -6,19 +6,25 @@ import PlusIcon from '@/components/PlusIcon'
 import React, { useEffect, useState } from 'react'
 const teste = "/pages/doc"
 
+interface DocData {
+  id: number;
+  nome: string;
+  publica: boolean;
+  userId: number;
+}
 
 
 
-const page = () => {
-  const [data, setData] = useState()
+const Page = () => {
+  const [data, setData] = useState<DocData[]>([]);
+
   useEffect(() => {
-    axiosInstance.get('/docs/105404')
+    axiosInstance.get('/docs')
       .then(response => {
         setData(response.data);
-        console.log(response)
       })
       .catch(error => {
-        console.error('Erro:', error);
+        console.error('Erro ao recuperar documentos:', error);
       });
   }, []);
   
@@ -28,23 +34,13 @@ const page = () => {
         <h1 className='ml-1 pb-2 pt-10 md:pt-12'>Docs</h1>
       </div>
       <div className='gap-4 md:gap-0 w-11/12 m-auto h-auto mb-10 md:pl-28 grid grid-cols-2 md:grid-cols-4'>
-       <DocCard />
-       <DocCard />
-
-       <DocCard />
-       <DocCard />
-       <DocCard />
-       <DocCard />
-       <DocCard />
-       <DocCard />
-       <DocCard />
-       <DocCard />
-       <DocCard />
-
+      {data && data.map(doc => (
+        <DocCard key={doc.id} nome={doc.nome} id={doc.id}/>
+      ))}
       </div>
-      <PlusIcon link={teste}/>
+      <PlusIcon link={teste} />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default Page;
