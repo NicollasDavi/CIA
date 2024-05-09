@@ -3,7 +3,7 @@ import axiosInstance from '@/app/axiosInstance'
 import React, { useState } from 'react'
 
 
-const page = () => {
+const Page = () => {
     const [image, setImage] = useState<Blob>();
     const [matricula, setMatricula] = useState("")
     const [nome, setNome] = useState("")
@@ -119,4 +119,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

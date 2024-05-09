@@ -1,6 +1,6 @@
 import React from 'react'
 
-const page = () => {
+const Page = () => {
   return (
     <div className='min-h-screen bg-[#3B82F6]/30 flex items-center justify-center'>
     <div>
@@ -11,4 +11,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
