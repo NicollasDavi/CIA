@@ -15,17 +15,14 @@ interface DocType {
 }
 
 const Page = () => {
-    const [image, setImage] = useState("");
+    const [image, setImage] = useState<File | Blob | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [nome, setNome] = useState("")
-    const [open, setOpen] = useState(0)
+    const [nome, setNome] = useState("");
+    const [open, setOpen] = useState(0);
     const [isNotTextOpen, setIsNotTextOpen] = useState(false);
     const [isNotTextImageOpen, setIsNotTextImageOpen] = useState(false);
     const [isNotImageOpen, setIsNotImageOpen] = useState(false);
     const [isNotImageTextOpen, setIsNotImageTextOpen] = useState(false);
-
-
-
     const [newTypeText, setNewTypeText] = useState("");
     const [doc, setDoc] = useState<{ nome: string; types: DocType[] }>({
         nome: "",
@@ -38,40 +35,47 @@ const Page = () => {
     const closeText = () => setOpen(0);
 
     useEffect(() => {
+        if (image) {
+            convertImageToBase64(image);
+        }
+    }, [image]);
+
+    useEffect(() => {
         switch (open) {
             case 1:
-                setIsNotTextOpen(true)
-                setIsNotTextImageOpen(false)
-                setIsNotImageOpen(false)
-                setIsNotImageTextOpen(false)
+                setIsNotTextOpen(true);
+                setIsNotTextImageOpen(false);
+                setIsNotImageOpen(false);
+                setIsNotImageTextOpen(false);
                 break;
             case 2:
-                setIsNotTextImageOpen(true)
-                setIsNotTextOpen(false)
-                setIsNotImageOpen(false)
-                setIsNotImageTextOpen(false)
+                setIsNotTextImageOpen(true);
+                setIsNotTextOpen(false);
+                setIsNotImageOpen(false);
+                setIsNotImageTextOpen(false);
                 break;
             case 3:
-                setIsNotTextImageOpen(false)
-                setIsNotTextOpen(false)
-                setIsNotImageOpen(false)
-                setIsNotImageTextOpen(true)
+                setIsNotTextImageOpen(false);
+                setIsNotTextOpen(false);
+                setIsNotImageOpen(false);
+                setIsNotImageTextOpen(true);
                 break;
             case 4:
-                setIsNotTextImageOpen(false)
-                setIsNotTextOpen(false)
-                setIsNotImageOpen(true)
-                setIsNotImageTextOpen(false)
+                setIsNotTextImageOpen(false);
+                setIsNotTextOpen(false);
+                setIsNotImageOpen(true);
+                setIsNotImageTextOpen(false);
                 break;
             case 0:
-                setIsNotTextOpen(false)
-                setIsNotTextImageOpen(false)
-                setIsNotImageOpen(false)
-                setIsNotImageTextOpen(false)
+                setIsNotTextOpen(false);
+                setIsNotTextImageOpen(false);
+                setIsNotImageOpen(false);
+                setIsNotImageTextOpen(false);
+                break;
             default:
                 break;
         }
-    }, [open])
+    }, [open]);
 
     useEffect(() => {
         setDoc(prevDoc => ({
@@ -82,31 +86,39 @@ const Page = () => {
 
     const env = () => {
         axiosInstance.post('/doc', doc)
-        .then(response => {
-            console.log(response);
-        })
-        .catch(error => {
-            console.error('Erro:', error);
-        });
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
     }
 
-    
     const addNewType = (type: number) => {
         const newText = newTypeText.replace(/\n\s*\n/g, '\n\n');
-        const newType: DocType = {
-            type: type,
-            text: newText,
-            img: image
-        };
 
-        setDoc(prevDoc => ({
-            ...prevDoc,
-            types: [...prevDoc.types, newType]
-        }));
+        if (image) {
+            convertImageToBase64(image).then(base64Image => {
+                const newType: DocType = {
+                    type: type,
+                    text: newText,
+                    img: base64Image
+                };
 
-        setNewTypeText("");
-        setImage("");
-        closeText();
+                setDoc(prevDoc => ({
+                    ...prevDoc,
+                    types: [...prevDoc.types, newType]
+                }));
+
+                setNewTypeText("");
+                setImage(null); // Alteração aqui
+                closeText();
+            }).catch(error => {
+                console.error('Erro ao converter imagem para base64:', error);
+            });
+        } else {
+            console.error('Nenhuma imagem selecionada.');
+        }
     };
 
     const handleSave = () => {
@@ -116,7 +128,6 @@ const Page = () => {
         }
     };
 
-
     const removeItem = (indexToRemove: number) => {
         setDoc(prevDoc => {
             const { nome, types } = prevDoc;
@@ -124,41 +135,65 @@ const Page = () => {
             return { nome, types: updatedTypes };
         });
     };
-    
+
     useEffect(() => {
         console.log("Estado atualizado:", doc);
-        console.log(nome)
+        console.log(nome);
     }, [doc]);
 
+    const convertImageToBase64 = (image: File | Blob) => {
+        return new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            const blob = new Blob([image], { type: 'text/plain' });
+
+            reader.readAsDataURL(blob);
+            reader.onload = () => {
+                resolve(reader.result as string);
+
+            };
+            reader.onerror = error => {
+                reject(error);
+            };
+        });
+    };
 
     return (
         <div className='pt-8'>
-            <div className='w-11/12 md:w-9/12 m-auto h-auto mb-10'>
+            <div className='w-10/12 md:w-9/12 m-auto h-auto mb-10'>
                 <section className='mt-16 items-end'>
                     <input type="text" value={nome} className='ml-1 border mb-3' onChange={(e) => setNome(e.target.value)} />
                     <hr className='mt-2'/>
                 </section>
                 {doc.types.map((item, index) => (
-                    <div key={index} className='p-2 flex flex-row gap-2'>
-                         <button className='bg-red-500 px-3 py-1 rounded-full w-[30px] text-center h-[30px] text-white' onClick={() => removeItem(index)}>R</button>
+                    <div key={index} className='p-2 flex flex-row gap-2 '>
+                         <button className=' px-3 py-1 rounded-full w-[30px] text-center h-[30px] text-white' onClick={() => removeItem(index)}>R</button>
                         {item.type === 1 ? (
-                            <p style={{ whiteSpace: 'pre-line' }}>{item.text}</p>
+                             <section className='w-12/12 '>
+                                <p >{item.text}</p>
+                           </section>
                         ) : ""}
                         {item.type === 2 ?(
-                            <div className='flex flex-row gap-2'>
-                                <p style={{ whiteSpace: 'pre-line' }} className='w-6/12'>{item.text} tipo2</p>
-                                <img src={item.img} alt="Imagem escolhida" className='w-4/12 rounded-xl m-auto'/>
-                            </div>
+                            <div className='flex flex-row gap-2 w-full'>
+                               <section className='w-6/12 '>
+                                 <p >{item.text}</p>
+                               </section>
+                               <section className='w-6/12 '>
+                                    <img src={item.img} alt="Imagem escolhida" className=' h-auto max-h-[500px] rounded-xl m-auto'/>
+                                </section>                            </div>
                         ) : ""}
                         {item.type === 3 ? (
-                            <div className='flex flex-row gap-2'>
-                                <img src={item.img} alt="Imagem escolhida" className='w-4/12 rounded-xl m-auto'/>
-                                <p style={{ whiteSpace: 'pre-line' }} className='w-6/12'>{item.text} tipo2</p>
+                            <div className='flex flex-row gap-2 w-full'>
+                                <section className='w-6/12 '>
+                                    <img src={item.img} alt="Imagem escolhida" className=' h-auto max-h-[500px] rounded-xl m-auto'/>
+                                </section>
+                               <section className='w-6/12 '>
+                                 <p >{item.text}</p>
+                               </section>
                             </div>
                         ) : "" }
                          {item.type === 4 ? (
-                            <div className='flex flex-row gap-2'>
-                                <img src={item.img} alt="Imagem escolhida" className='w-4/12 rounded-xl m-auto'/>
+                            <div className='flex flex-row gap-2 w-full'>
+                                <img src={item.img} alt="Imagem escolhida" className='bg-white h-auto max-h-[500px] rounded-xl m-auto'/>
                             </div>
                         ) : "" }
                         <hr className='mt-2'/>
@@ -175,7 +210,7 @@ const Page = () => {
                             className='md:w-6/12 w-full rounded-xl p-2'
                             value={newTypeText}
                             onChange={(e) => setNewTypeText(e.target.value)}
-                            style={{ whiteSpace: 'pre-line' }}
+                            
                         ></textarea>
                         {!image ? (
                            <input
@@ -184,12 +219,12 @@ const Page = () => {
                            onChange={(e) => {
                                const file = e.target.files && e.target.files[0];
                                if (file) {
-                                   setImage(URL.createObjectURL(file));
+                                   setImage(file);
                                }
                            }}
                        />
                         ) : (
-                            <img src={image} alt="Imagem escolhida" className='md:w-6/12 w-full p-2 rounded-xl'/>
+                            <img src={URL.createObjectURL(image)} alt="Imagem escolhida" className='md:w-3/12 m-auto w-full p-2 rounded-xl'/>
                         )}
                     </div>
                 </NotText>
@@ -202,12 +237,12 @@ const Page = () => {
                            onChange={(e) => {
                                const file = e.target.files && e.target.files[0];
                                if (file) {
-                                   setImage(URL.createObjectURL(file));
+                                   setImage(file);
                                }
                            }}
                        />
                         ) : (
-                            <img src={image} alt="Imagem escolhida" className='md:w-6/12 w-full p-2 rounded-xl'/>
+                            <img src={URL.createObjectURL(image)} alt="Imagem escolhida" className='md:w-3/12 m-auto w-full p-2 rounded-xl'/>
                         )}
                          <textarea
                             name=""
@@ -217,7 +252,7 @@ const Page = () => {
                             className='md:w-6/12 w-full rounded-xl p-2'
                             value={newTypeText}
                             onChange={(e) => setNewTypeText(e.target.value)}
-                            style={{ whiteSpace: 'pre-line' }}
+                            
                         ></textarea>
                     </div>
                 </NotText>
@@ -230,12 +265,12 @@ const Page = () => {
                            onChange={(e) => {
                                const file = e.target.files && e.target.files[0];
                                if (file) {
-                                   setImage(URL.createObjectURL(file));
+                                   setImage(file);
                                }
                            }}
                        />
                         ) : (
-                            <img src={image} alt="Imagem escolhida" className='md:w-6/12 w-full p-2 rounded-xl'/>
+                            <img src={URL.createObjectURL(image)} alt="Imagem escolhida" className='md:w-3/12 m-auto w-full p-2 rounded-xl'/>
                         )}
                     </div>
                 </NotText>
@@ -248,7 +283,7 @@ const Page = () => {
                             className='md:w-6/12 w-full rounded-xl p-2'
                             value={newTypeText}
                             onChange={(e) => setNewTypeText(e.target.value)}
-                            style={{ whiteSpace: 'pre-line' }}
+                            
                         ></textarea>
                 </NotText>
                 <div className='w-full justify-end flex'>

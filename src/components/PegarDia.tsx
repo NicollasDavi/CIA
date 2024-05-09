@@ -52,7 +52,7 @@ const PegarDia: React.FC<PegarDiaProps> = (props) => {
         mode="single"
         selected={selected}
         onSelect={handleDaySelect}
-        className='bg-[#3B82F6]  text-white'
+        className='bg-[#3B82F6] text-white'
       />
       {errorMessage && <p className="text-red-500">{errorMessage}</p>}
     </>

@@ -41,10 +41,6 @@ const Page = () => {
       <div className='w-full m-auto'>
         <section className='m-auto md:mt- pt-4 flex-col gap-5 md:flex-row flex justify-between w-9/12'>
             <Link href={"/pages/calculadora"} className='bg-blue-500 text-center py-3 md:px-10 md:py-3 rounded-lg text-white md:mr-4'>Calculadora</Link>
-            <Link href={""} className='bg-blue-500 text-center py-3 md:px-10 md:py-3 rounded-lg text-white md:mr-4'>Cachorrinho</Link>
-            <Link href={""} className='bg-blue-500 text-center py-3 md:px-10 md:py-3 rounded-lg text-white md:mr-4'>Cachorrinho</Link>
-            <Link href={""} className='bg-blue-500 text-center py-3 md:px-10 md:py-3 rounded-lg text-white md:mr-4'>Cachorrinho</Link>
-            <Link href={""} className='bg-blue-500 text-center py-3 md:px-10 md:py-3 rounded-lg text-white'>Cachorrinho</Link>
         </section>
     </div>
     <div className='md:flex justify-center pt-20 hidden'>

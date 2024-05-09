@@ -94,7 +94,7 @@ const Page = () => {
                         </section>
                     </>
                 </DocsModal>
-                <div className='bg-gray-100/30 rounded-lg shadow-2xl shadow-black px-3 md:px-8 md:py-4 w-full md:w-8/12'>
+                <div className='bg-gray-100/30 rounded-lg shadow-2xl shadow-black px-3 md:px-8 md:py-4 w-full md:w-6/12'>
                     <DayPicker
                         showOutsideDays
                         fixedWeeks
