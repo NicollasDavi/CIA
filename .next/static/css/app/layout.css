@@ -661,9 +661,6 @@ video {
 .ml-3 {
   margin-left: 0.75rem;
 }
-.ml-32 {
-  margin-left: 8rem;
-}
 .ml-4 {
   margin-left: 1rem;
 }
@@ -1038,9 +1035,6 @@ video {
 }
 .pt-20 {
   padding-top: 5rem;
-}
-.pt-28 {
-  padding-top: 7rem;
 }
 .pt-32 {
   padding-top: 8rem;
