@@ -1,26 +1,2 @@
 # Arquivos gerados durante o desenvolvimento
 node_modules/
-.cache/
-out/
-dist/
-build/
-.next/
-
-# Arquivos de ambiente local
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Arquivos de log e cache
-npm-debug.log*
-
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# Outros arquivos específicos do desenvolvimento
-.vscode/
-.DS_Store
-*.log
-*.bak
